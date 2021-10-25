@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>A Minimal Example | ⚓ Anchor</title>
     <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="data:image/svg+xml,&lt;svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22&gt;&lt;text y=%22.9em%22 font-size=%2290%22&gt;⚓ &lt;/text&gt;&lt;/svg&gt;">
     <meta name="description" content="">
     <meta name="theme-color" content="#3eaf7c">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="preload" href="/anchor/assets/css/0.styles.21b321ec.css" as="style"><link rel="preload" href="/anchor/assets/js/app.bd5faf02.js" as="script"><link rel="preload" href="/anchor/assets/js/2.ea01bea0.js" as="script"><link rel="preload" href="/anchor/assets/js/16.b364bdb3.js" as="script"><link rel="prefetch" href="/anchor/assets/js/10.59ab4baa.js"><link rel="prefetch" href="/anchor/assets/js/11.956e5787.js"><link rel="prefetch" href="/anchor/assets/js/12.950cdbfa.js"><link rel="prefetch" href="/anchor/assets/js/13.f295bcdb.js"><link rel="prefetch" href="/anchor/assets/js/14.d2e33b11.js"><link rel="prefetch" href="/anchor/assets/js/15.6541121e.js"><link rel="prefetch" href="/anchor/assets/js/17.74d3c945.js"><link rel="prefetch" href="/anchor/assets/js/18.ef109ee7.js"><link rel="prefetch" href="/anchor/assets/js/19.bdb1fb5a.js"><link rel="prefetch" href="/anchor/assets/js/20.9cc1fa00.js"><link rel="prefetch" href="/anchor/assets/js/3.617d8768.js"><link rel="prefetch" href="/anchor/assets/js/4.4c345d2a.js"><link rel="prefetch" href="/anchor/assets/js/5.6dbf4d9c.js"><link rel="prefetch" href="/anchor/assets/js/6.a6cd0936.js"><link rel="prefetch" href="/anchor/assets/js/7.7e03f030.js"><link rel="prefetch" href="/anchor/assets/js/8.dcdd2241.js"><link rel="prefetch" href="/anchor/assets/js/9.97293849.js">
+    <link rel="preload" href="/anchor/assets/css/0.styles.21b321ec.css" as="style"><link rel="preload" href="/anchor/assets/js/app.9c2eb47e.js" as="script"><link rel="preload" href="/anchor/assets/js/2.ea01bea0.js" as="script"><link rel="preload" href="/anchor/assets/js/16.a81cf473.js" as="script"><link rel="prefetch" href="/anchor/assets/js/10.513205f3.js"><link rel="prefetch" href="/anchor/assets/js/11.67ce1e0c.js"><link rel="prefetch" href="/anchor/assets/js/12.bf67c62a.js"><link rel="prefetch" href="/anchor/assets/js/13.70eb8aba.js"><link rel="prefetch" href="/anchor/assets/js/14.591220ff.js"><link rel="prefetch" href="/anchor/assets/js/15.8cb1e92a.js"><link rel="prefetch" href="/anchor/assets/js/17.0b5761d0.js"><link rel="prefetch" href="/anchor/assets/js/18.6f0318eb.js"><link rel="prefetch" href="/anchor/assets/js/19.bcde52e8.js"><link rel="prefetch" href="/anchor/assets/js/20.9cc1fa00.js"><link rel="prefetch" href="/anchor/assets/js/3.617d8768.js"><link rel="prefetch" href="/anchor/assets/js/4.4c345d2a.js"><link rel="prefetch" href="/anchor/assets/js/5.6dbf4d9c.js"><link rel="prefetch" href="/anchor/assets/js/6.a6cd0936.js"><link rel="prefetch" href="/anchor/assets/js/7.7e03f030.js"><link rel="prefetch" href="/anchor/assets/js/8.dcdd2241.js"><link rel="prefetch" href="/anchor/assets/js/9.97293849.js">
     <link rel="stylesheet" href="/anchor/assets/css/0.styles.21b321ec.css">
   </head>
   <body>
@@ -81,7 +82,11 @@ see <a href="https://github.com/project-serum/anchor/tree/master/examples/tutori
 <span class="token comment">// Execute the RPC.</span>
 <span class="token keyword">await</span> program<span class="token punctuation">.</span>rpc<span class="token punctuation">.</span><span class="token function">initialize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div><p>Notice how we dynamically created the <code>initialize</code> method under
 the <code>rpc</code> namespace.</p> <p>Now, make sure to plugin your program's address into <code>&lt;YOUR-PROGRAM-ID&gt;</code> (a mild
-annoyance that we'll address next), and run</p> <div class="language-bash extra-class"><pre class="language-bash"><code>node client.js
+annoyance that we'll address next). In order to run the client, you'll also need the path
+to your wallet's keypair you generated when you ran <code>solana-keygen new</code>; you can find it
+by running</p> <div class="language-bash extra-class"><pre class="language-bash"><code>solana config get keypair
+</code></pre></div><p>Once you've got it, run the client with the environment variable <code>ANCHOR_WALLET</code> set to
+that path, e.g.</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token assign-left variable">ANCHOR_WALLET</span><span class="token operator">=</span><span class="token operator">&lt;</span>YOUR-KEYPAIR-<span class="token environment constant">PATH</span><span class="token operator">&gt;</span> node client.js
 </code></pre></div><p>You just successfully created a client and executed a transaction on your localnet.</p> <h2 id="workspaces"><a href="#workspaces" class="header-anchor">#</a> Workspaces</h2> <p>So far we've seen the basics of how to create, deploy, and make RPCs to a program, but
 deploying a program, copy and pasting the address, and explicitly reading
 an IDL is all a bit tedious, and can easily get out of hand the more tests and the more
@@ -90,7 +95,7 @@ programs you have. For this reason, we introduce the concept of a workspace.</p>
 <span class="token comment">// Execute the RPC.</span>
 <span class="token keyword">await</span> program<span class="token punctuation">.</span>rpc<span class="token punctuation">.</span><span class="token function">initialize</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre></div><p>The <code>workspace</code> namespace provides access to all programs in the local project and is
 automatically updated to reflect the latest deployment, making it easy to change
-your program, update your JavaScript, and run your tests in a fast feedback loop.</p> <div class="custom-block tip"><p class="custom-block-title">NOTE</p> <p>For now, the workspace feature is only available when running  the <code>anchor test</code> command,
+your program, update your JavaScript, and run your tests in a fast feedback loop.</p> <div class="custom-block tip"><p class="custom-block-title">NOTE</p> <p>For now, the workspace feature is only available when running the <code>anchor test</code> command,
 which will automatically <code>build</code>, <code>deploy</code>, and <code>test</code> all programs against a localnet
 in one command.</p></div> <p>Finally, we can run the test. Don't forget to kill the local validator started earlier.
 We won't need to start one manually for any future tutorials.</p> <div class="language-bash extra-class"><pre class="language-bash"><code>anchor <span class="token builtin class-name">test</span>
@@ -105,6 +110,6 @@ interacting with persistent state. We'll cover that next.</p></div> <footer clas
       </a>
       →
     </span></p></div> </main></div><div class="global-ui"></div></div>
-    <script src="/anchor/assets/js/app.bd5faf02.js" defer></script><script src="/anchor/assets/js/2.ea01bea0.js" defer></script><script src="/anchor/assets/js/16.b364bdb3.js" defer></script>
+    <script src="/anchor/assets/js/app.9c2eb47e.js" defer></script><script src="/anchor/assets/js/2.ea01bea0.js" defer></script><script src="/anchor/assets/js/16.a81cf473.js" defer></script>
   </body>
 </html>
