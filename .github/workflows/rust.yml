@@ -1,0 +1,20 @@
+name: Anchor build
+
+on:
+  push:
+    branches: main
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: projectserum/build
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: anchor build --verbose
+    - name: Run tests
+      run: anchor test --verbose
